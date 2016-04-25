@@ -431,7 +431,8 @@ int main (int argc, char **argv)
         {"socket1", required_argument,0 ,'y'},
         {"logfile", required_argument,0,'l'},
         {"help", no_argument, 0, 'h'},
-        {"nogui", no_argument, 0, 'n'}
+        {"nogui", no_argument, 0, 'n'},
+        {"stdout", no_argument, 0, 's'}
     };
 
     prog_options.logging = 0;
@@ -479,7 +480,17 @@ int main (int argc, char **argv)
                 use_ncurses = false;
                 printf("Not Spawning the GUI\n");
                 break;
-
+            case 's':
+                // stdout mode, that prints statistics to standard output
+                // disable ncurses
+                use_ncurses = false;
+                // setup standard  output files
+                CPU_FREQUENCY_LOGGING_FILE_single = "/dev/stdout";
+                CPU_FREQUENCY_LOGGING_FILE_dual = "/dev/stdout";
+                // append logs
+                prog_options.logging = 2;
+                printf("Logging frequencies to stdout for single sockets and for dual sockets(0,1 for multiple sockets)\n");
+                break;
             case 'h':
                 printf("\ni7z Tool Supports the following functions:\n");
                 printf("Append to a log file:  ");
@@ -505,6 +516,8 @@ int main (int argc, char **argv)
                 printf("In order to print to a second socket use: %c[%d;%d;%dm./i7z --socket1 X \n", 0x1B,1,31,40);
                 printf("%c[%dm",0x1B,0);
                 printf("To turn the ncurses GUI off use: %c[%d;%d;%dm./i7z --nogui\n", 0x1B, 1, 31, 40);
+                printf("%c[%dm",0x1B,0);
+                printf("Print output to stdout rather than a log file: %c[%d;%d;%dm./i7z --stdout\n", 0x1B, 1, 31, 40);
                 printf("%c[%dm",0x1B,0);
                 printf("Example: To print for two sockets and also change the log file %c[%d;%d;%dm./i7z --socket0 0 --socket1 1 -logfile /tmp/logfilei7z -w l\n", 0x1B, 1, 31, 40);
                 printf("%c[%dm",0x1B,0);
