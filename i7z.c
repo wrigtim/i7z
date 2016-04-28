@@ -33,10 +33,11 @@ int Single_Socket();
 int Dual_Socket();
 
 int socket_0_num=0, socket_1_num=1;
-// run times initially equal to 0, 
-// and when it is zero it is not affected and do not change the logic
-int run_times=0;
 bool use_ncurses = true;
+// run times initially equal to 0, 
+// and when it is zero it is not affected, 
+// and do not change the logic
+int run_times=0;
 
 /////////////////////LOGGING TO FILE////////////////////////////////////////
 FILE *fp_log_file_freq;
@@ -498,6 +499,8 @@ int main (int argc, char **argv)
             case 't':
                 run_times = atoi(optarg);
                 printf("Running %d times\n", run_times);
+                // disable ncurses
+                use_ncurses = false;
                 break;
             case 'h':
                 printf("\ni7z Tool Supports the following functions:\n");
@@ -627,5 +630,5 @@ int main (int argc, char **argv)
     } else {
         Dual_Socket();
     }
-    return(1);
+    return EXIT_SUCCESS;
 }
