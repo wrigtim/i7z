@@ -33,6 +33,9 @@ int Single_Socket();
 int Dual_Socket();
 
 int socket_0_num=0, socket_1_num=1;
+// run times initially equal to 0, 
+// and when it is zero it is not affected and do not change the logic
+int run_times=0;
 bool use_ncurses = true;
 
 /////////////////////LOGGING TO FILE////////////////////////////////////////
@@ -432,7 +435,8 @@ int main (int argc, char **argv)
         {"logfile", required_argument,0,'l'},
         {"help", no_argument, 0, 'h'},
         {"nogui", no_argument, 0, 'n'},
-        {"stdout", no_argument, 0, 's'}
+        {"stdout", no_argument, 0, 's'},
+        {"run-times", required_argument, 0, 't'}
     };
 
     prog_options.logging = 0;
@@ -491,6 +495,10 @@ int main (int argc, char **argv)
                 prog_options.logging = 2;
                 printf("Logging frequencies to stdout for single sockets and for dual sockets(0,1 for multiple sockets)\n");
                 break;
+            case 't':
+                run_times = atoi(optarg);
+                printf("Running %d times\n", run_times);
+                break;
             case 'h':
                 printf("\ni7z Tool Supports the following functions:\n");
                 printf("Append to a log file:  ");
@@ -518,6 +526,8 @@ int main (int argc, char **argv)
                 printf("To turn the ncurses GUI off use: %c[%d;%d;%dm./i7z --nogui\n", 0x1B, 1, 31, 40);
                 printf("%c[%dm",0x1B,0);
                 printf("Print output to stdout rather than a log file: %c[%d;%d;%dm./i7z --stdout\n", 0x1B, 1, 31, 40);
+                printf("%c[%dm",0x1B,0);
+                printf("Run n times and exit: %c[%d;%d;%dm./i7z --run-times n\n", 0x1B, 1, 31, 40);
                 printf("%c[%dm",0x1B,0);
                 printf("Example: To print for two sockets and also change the log file %c[%d;%d;%dm./i7z --socket0 0 --socket1 1 -logfile /tmp/logfilei7z -w l\n", 0x1B, 1, 31, 40);
                 printf("%c[%dm",0x1B,0);
