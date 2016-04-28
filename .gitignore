@@ -1,0 +1,5 @@
+*.o
+cpu_cstate_log.txt
+cpu_cstate_log_dual_0.txt
+i7z
+*.swp
