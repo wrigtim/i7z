@@ -506,13 +506,15 @@ void Test_Or_Make_MSR_DEVICE_FILES()
     //test if the msr file exists
     if (access ("/dev/cpu/0/msr", F_OK) == 0)
     {
-        printf ("i7z DEBUG: msr device files exist /dev/cpu/*/msr\n");
+        if(prog_options.debug)
+            printf ("i7z DEBUG: msr device files exist /dev/cpu/*/msr\n");
         if (access ("/dev/cpu/0/msr", W_OK) == 0)
         {
             //a system mght have been set with msr allowable to be written
             //by a normal user so...
             //Do nothing.
-            printf ("i7z DEBUG: You have write permissions to msr device files\n");
+            if(prog_options.debug)
+                printf ("i7z DEBUG: You have write permissions to msr device files\n");
         } else {
             printf ("i7z DEBUG: You DO NOT have write permissions to msr device files\n");
             printf ("i7z DEBUG: A solution is to run this program as root\n");

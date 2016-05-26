@@ -67,7 +67,8 @@ int Dual_Socket ()
 					 * the number of colums of the screen *
 					 * for NCURSES                        */
 
-    printf ("i7z DEBUG: In i7z Dual_Socket()\n");
+    if(prog_options.debug)
+        printf ("i7z DEBUG: In i7z Dual_Socket()\n");
 
     sleep (3);
 

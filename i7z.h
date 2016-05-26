@@ -42,6 +42,7 @@ struct program_options{
     int cstatelogging;
     //always put variables before the below structure, something fishy going on and the variable is reset
     struct core_i7_version i7_version;
+    bool debug;
 };
 
 /// Logging Functions

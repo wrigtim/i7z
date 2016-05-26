@@ -34,6 +34,7 @@ int Dual_Socket();
 
 int socket_0_num=0, socket_1_num=1;
 bool use_ncurses = true;
+
 // run times initially equal to 0, 
 // and when it is zero it is not affected, 
 // and do not change the logic
@@ -417,6 +418,7 @@ int main (int argc, char **argv)
 
     char log_file_name[MAX_FILENAME_LENGTH], log_file_name2[MAX_FILENAME_LENGTH+3];
     prog_options.logging=0; //0=no logging, 1=logging, 2=appending
+    prog_options.debug = true;
 
     struct cpu_heirarchy_info chi;
     struct cpu_socket_info socket_0={.max_cpu=0, .socket_num=0, .processor_num={-1,-1,-1,-1,-1,-1,-1,-1}};
@@ -489,16 +491,18 @@ int main (int argc, char **argv)
                 // stdout mode, that prints statistics to standard output
                 // disable ncurses
                 use_ncurses = false;
+                // enable stdout
+                prog_options.debug = false;
                 // setup standard  output files
                 CPU_FREQUENCY_LOGGING_FILE_single = "/dev/stdout";
                 CPU_FREQUENCY_LOGGING_FILE_dual = "/dev/stdout";
                 // append logs
                 prog_options.logging = 2;
-                printf("Logging frequencies to stdout for single sockets and for dual sockets(0,1 for multiple sockets)\n");
                 break;
             case 't':
                 run_times = atoi(optarg);
-                printf("Running %d times\n", run_times);
+                if(prog_options.debug)
+                    printf("Running %d times\n", run_times);
                 // disable ncurses
                 use_ncurses = false;
                 break;
@@ -540,9 +544,10 @@ int main (int argc, char **argv)
         }
     }
 
-    Print_Version_Information();
-
-    Print_Information_Processor (&prog_options.i7_version.nehalem, &prog_options.i7_version.sandy_bridge, &prog_options.i7_version.ivy_bridge, &prog_options.i7_version.haswell);
+    if (prog_options.debug) {
+        Print_Version_Information();
+        Print_Information_Processor (&prog_options.i7_version.nehalem, &prog_options.i7_version.sandy_bridge, &prog_options.i7_version.ivy_bridge, &prog_options.i7_version.haswell);
+    }
 
 //	printf("nehalem %d, sandy brdige %d\n", prog_options.i7_version.nehalem, prog_options.i7_version.sandy_bridge);
 
@@ -587,13 +592,16 @@ int main (int argc, char **argv)
 
     construct_CPU_Heirarchy_info(&chi);
     construct_sibling_list(&chi);
-    print_CPU_Heirarchy(chi);
     construct_socket_information(&chi, &socket_0, &socket_1, socket_0_num, socket_1_num);
-    print_socket_information(&socket_0);
-    print_socket_information(&socket_1);
+    if(prog_options.debug) {
+        print_CPU_Heirarchy(chi);
+        print_socket_information(&socket_0);
+        print_socket_information(&socket_1);
+    }
 
     if (!use_ncurses){
-        printf("GUI has been Turned OFF\n");
+        if(prog_options.debug)
+            printf("GUI has been Turned OFF\n");
         //print_options(prog_options);
     } else {
         printf("GUI has been Turned ON\n");
@@ -618,12 +626,14 @@ int main (int argc, char **argv)
     if (!presupplied_socket_info){
         if (socket_0.max_cpu>0 && socket_1.max_cpu>0) {
             //Path for Dual Socket Code
-            printf("i7z DEBUG: Dual Socket Detected\n\r");
+            if(prog_options.debug)
+                printf("i7z DEBUG: Dual Socket Detected\n\r");
             //Dual_Socket(&prog_options);
             Dual_Socket();
         } else {
             //Path for Single Socket Code
-            printf("i7z DEBUG: Single Socket Detected\n\r");
+            if(prog_options.debug)
+                printf("i7z DEBUG: Single Socket Detected\n\r");
             //Single_Socket(&prog_options);
             Single_Socket();
         }
