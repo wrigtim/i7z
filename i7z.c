@@ -198,7 +198,7 @@ void logCpuFreq_single_ts(struct timespec  *value) //HW use timespec to avoid fl
 }
 
 
-void logCpuFreq_dual(float value,int socket_num)
+void logCpuFreq_dual(float value,int socket_num,int core_num)
 {
     if(socket_num==0){
         //below when just logging
@@ -208,6 +208,10 @@ void logCpuFreq_dual(float value,int socket_num)
         //below when appending
         if(prog_options.logging==2)
             fprintf(fp_log_file_freq_1,"%f\t",value);
+
+        //below when stdout (show core numbering)
+        if(prog_options.logging==3)
+            fprintf(fp_log_file_freq_1,"core%d:%.0f\t",core_num,value);
     }
     if(socket_num==1){
         //below when just logging
@@ -217,6 +221,10 @@ void logCpuFreq_dual(float value,int socket_num)
         //below when appending
         if(prog_options.logging==2)
             fprintf(fp_log_file_freq_2,"%f\t",value);
+
+        //below when stdout (show core numbering)
+        if(prog_options.logging==3)
+            fprintf(fp_log_file_freq_2,"core%d:%.0f\t",core_num,value);
     }
 }
 

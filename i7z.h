@@ -52,7 +52,7 @@ void logCpuFreq_single(float value);
 
 void logOpenFile_dual(int);
 void logCloseFile_dual(int);
-void logCpuFreq_dual(float,int);
+void logCpuFreq_dual(float,int,int);
 void logCpuFreq_dual_d(int, int);
 void logCpuFreq_dual_ts(struct timespec  *value, int) ;
 
