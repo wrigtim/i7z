@@ -388,7 +388,8 @@ void logCpuCstates_dual_ts(struct timespec  *value, int socket_num) //HW use tim
 
 void atexit_runsttysane()
 {
-    printf("Quitting i7z\n");
+    if(prog_options.debug)
+        printf("Quitting i7z\n");
     system("stty sane");
 }
 
