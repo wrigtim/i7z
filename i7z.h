@@ -12,7 +12,7 @@
 
 #include <sys/time.h>
 
-#define i7z_VERSION_INFO "tw-0.93.1"
+#define i7z_VERSION_INFO "tw-0.93.2"
 
 //structure to store the information about the processor
 #define proccpuinfo "/proc/cpuinfo"
