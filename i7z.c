@@ -228,6 +228,12 @@ void logCpuFreq_dual(float value,int socket_num,int core_num)
     }
 }
 
+void logCpuFreq_info(float value,char* description)
+{
+    if(prog_options.logging==3)
+        fprintf(fp_log_file_freq_1,"%s:%.0f\t",description,value);
+}
+
 void logCpuFreq_dual_c(char* value,int socket_num)
 {
     if(socket_num==0){
@@ -629,22 +635,7 @@ int main (int argc, char **argv)
         */
     }
 
-    if (!presupplied_socket_info){
-        if (socket_0.max_cpu>0 && socket_1.max_cpu>0) {
-            //Path for Dual Socket Code
-            if(prog_options.debug)
-                printf("i7z DEBUG: Dual Socket Detected\n\r");
-            //Dual_Socket(&prog_options);
-            Dual_Socket();
-        } else {
-            //Path for Single Socket Code
-            if(prog_options.debug)
-                printf("i7z DEBUG: Single Socket Detected\n\r");
-            //Single_Socket(&prog_options);
-            Single_Socket();
-        }
-    } else {
-        Dual_Socket();
-    }
+    // Force dual-socket code
+    Dual_Socket();
     return EXIT_SUCCESS;
 }

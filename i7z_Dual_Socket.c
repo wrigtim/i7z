@@ -67,10 +67,10 @@ int Dual_Socket ()
 					 * the number of colums of the screen *
 					 * for NCURSES                        */
 
-    if(prog_options.debug)
+    if(prog_options.debug) {
         printf ("i7z DEBUG: In i7z Dual_Socket()\n");
-
-    sleep (3);
+        sleep (3);
+    }
 
 	if (use_ncurses) {
 	    //Setup stuff for ncurses
@@ -590,6 +590,10 @@ void print_i7z_socket(struct cpu_socket_info socket_0, int printw_offset, int PL
 		logCpuCstates_dual_ts(&global_ts, socket_0.socket_num);
         
         int core_offset = socket_0.socket_num * numCPUs;
+
+        // Log the nominal frequency for comparison
+        logCpuFreq_info(BLCK * (double)CPU_Multiplier,"nominal");
+        logCpuFreq_info((float)TURBO_MODE,"turbo");
         
         for (ii = 0; ii < numCPUs; ii++)
         {
@@ -600,7 +604,7 @@ void print_i7z_socket(struct cpu_socket_info socket_0, int printw_offset, int PL
                 TRUE_CPU_FREQ = _FREQ[i];
             }
 			if ( (print_core[ii]) && !isinf(_FREQ[i]) ) {
-                logCpuFreq_dual(_FREQ[i],socket_0.socket_num,ii + core_offset);
+                logCpuFreq_dual(_FREQ[i],socket_0.socket_num,ii);
             }
 
             logCpuCstates_dual_c(" [",socket_0.socket_num);
@@ -617,6 +621,7 @@ void print_i7z_socket(struct cpu_socket_info socket_0, int printw_offset, int PL
 			logCpuCstates_dual_c("]\t",socket_0.socket_num);        
         }
 
+        // Close log
 		logCloseFile_dual(socket_0.socket_num);
 
         mvprintw (8 + printw_offset, 0,
