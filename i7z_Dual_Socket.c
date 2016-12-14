@@ -593,7 +593,8 @@ void print_i7z_socket(struct cpu_socket_info socket_0, int printw_offset, int PL
 
         // Log the nominal frequency for comparison
         logCpuFreq_info(BLCK * (double)CPU_Multiplier,"nominal");
-        logCpuFreq_info((float)TURBO_MODE,"turbo");
+        logCpuFreq_info((float)socket_0.socket_num,"socket");
+        logCpuFreq_info((float)TURBO_MODE,"turbo_on");
         
         for (ii = 0; ii < numCPUs; ii++)
         {
