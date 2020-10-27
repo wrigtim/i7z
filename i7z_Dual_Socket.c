@@ -242,18 +242,6 @@ void print_i7z_socket(struct cpu_socket_info socket_0, int printw_offset, int PL
                      MAX_TURBO_5C, MAX_TURBO_6C);
         }
 
-        if (socket_0.socket_num == 0)
-        {
-            mvprintw (31, 0, "C0 = Processor running without halting");
-            mvprintw (32, 0, "C1 = Processor running with halts (States >C0 are power saver)");
-            mvprintw (33, 0, "C3 = Cores running with PLL turned off and core cache turned off");
-            mvprintw (34, 0, "C6 = Everything in C3 + core state saved to last level cache");
-            mvprintw (35, 0, "  Above values in table are in percentage over the last 1 sec");
-            mvprintw (36, 0, "[core-id] refers to core-id number in /proc/cpuinfo");
-            mvprintw (37, 0, "'Garbage Values' message printed when garbage values are read");
-            mvprintw (38, 0, "  Ctrl+C to exit");
-        }
-
         numCPUs = core_list_size_phy;
         numPhysicalCores = core_list_size_phy;
         numLogicalCores = core_list_size_log;
@@ -577,8 +565,8 @@ void print_i7z_socket(struct cpu_socket_info socket_0, int printw_offset, int PL
         //till 6 print a blank line
 
         //for(ii=*max_observed_cpu; ii<6; ii++)
-        for (ii = numCPUs ; ii<6; ii++)
-            mvprintw (10 + ii + printw_offset, 0, "\n");
+        //for (ii = numCPUs ; ii<6; ii++)
+        //    mvprintw (10 + ii + printw_offset, 0, "\n");
 
         TRUE_CPU_FREQ = 0;
 
@@ -844,7 +832,7 @@ void print_i7z ()
         
 
             socket_num=1;
-            printw_offset=14;
+            printw_offset=28;
             print_i7z_socket(socket_1, printw_offset, PLATFORM_INFO_MSR,  PLATFORM_INFO_MSR_high, PLATFORM_INFO_MSR_low,
                              online_cpus, cpu_freq_cpuinfo, one_second_sleep, TURBO_MODE, HT_ON_str, &kk_2,
                              old_val_CORE[socket_num], old_val_REF[socket_num], old_val_C3[socket_num], old_val_C6[socket_num], old_val_C7[socket_num],
